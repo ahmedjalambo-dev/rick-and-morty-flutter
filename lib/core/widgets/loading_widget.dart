@@ -3,12 +3,12 @@ import 'package:lottie/lottie.dart';
 
 class LoadingWidget extends StatelessWidget {
   final String jsonPath;
+  final String loadingStatus;
 
-  final Color textColor;
   const LoadingWidget({
     super.key,
     required this.jsonPath,
-    this.textColor = Colors.black,
+    this.loadingStatus = "Loading...",
   });
 
   @override
@@ -18,11 +18,10 @@ class LoadingWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Loading...",
-            style: TextStyle(
+            loadingStatus,
+            style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: textColor,
             ),
           ),
           SizedBox(

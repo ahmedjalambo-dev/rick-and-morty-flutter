@@ -16,15 +16,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rick and Morty',
       theme: ThemeData(
-        fontFamily: 'ComicNeue',
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0e4046)),
-        useMaterial3: false,
+        fontFamily: 'LemonMilk',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xff272b33),
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: '/',

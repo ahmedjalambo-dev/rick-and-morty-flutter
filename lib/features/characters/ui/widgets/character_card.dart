@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/features/characters/db/models/character_model.dart';
 
@@ -20,13 +22,20 @@ class CharacterCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onLongPress: () {
-                _showZoomedImage(context, characterModel.image);
+              borderRadius: BorderRadius.circular(65),
+              onLongPress: () =>
+                  _showZoomedImage(context, characterModel.image),
+              onTap: () {
+                Navigator.pushNamed(context, '/details',
+                    arguments: characterModel);
+                log(characterModel.name.toString());
               },
-              onTap: () => Navigator.pushNamed(context, '/details'),
-              child: CircleAvatar(
-                radius: 65,
-                backgroundImage: NetworkImage(characterModel.image),
+              child: Hero(
+                tag: characterModel.id,
+                child: CircleAvatar(
+                  radius: 65,
+                  backgroundImage: NetworkImage(characterModel.image),
+                ),
               ),
             ),
             Text(
@@ -51,9 +60,7 @@ class CharacterCard extends StatelessWidget {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
+          onTap: () => Navigator.of(context).pop(),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(

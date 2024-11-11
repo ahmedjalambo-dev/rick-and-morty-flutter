@@ -15,12 +15,15 @@ class CharactersScreen extends StatefulWidget {
 class _CharactersScreenState extends State<CharactersScreen> {
   List<CharacterModel>? characters;
   late ScrollController _scrollController;
+  bool isSearchClicked = false;
+  late TextEditingController _searchTextEditingController;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _searchTextEditingController = TextEditingController();
 
     // Load the initial set of characters
     BlocProvider.of<CharactersCubit>(context).getCharacters();
@@ -38,6 +41,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchTextEditingController.dispose();
     super.dispose();
   }
 
@@ -45,13 +49,51 @@ class _CharactersScreenState extends State<CharactersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Rick and Morty',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w900,
+        title: isSearchClicked
+            ? Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  controller: _searchTextEditingController,
+                  onChanged: (value) {
+                    context
+                        .read<CharactersCubit>()
+                        .searchCharacters(value); // Trigger search on input
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(20, 10, 16, 12),
+                    fillColor: Colors.grey.shade200,
+                    hintText: 'Search',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                    ),
+                    border: InputBorder.none,
+                  ),
+                ),
+              )
+            : const Text(
+                'Rick and Morty',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+        actions: [
+          IconButton(
+            onPressed: () => setState(() {
+              isSearchClicked = !isSearchClicked;
+              if (!isSearchClicked) {
+                // _searchTextEditingController.clear();
+                context.read<CharactersCubit>().getCharacters(
+                    characterName: ''); // Load data without search term
+              }
+            }),
+            icon: Icon(isSearchClicked ? Icons.close : Icons.search),
           ),
-        ),
+        ],
       ),
       body: _buildBlocBuilderCharacters(),
     );
@@ -59,26 +101,31 @@ class _CharactersScreenState extends State<CharactersScreen> {
 
   Widget _buildBlocBuilderCharacters() {
     return BlocBuilder<CharactersCubit, CharactersState>(
-        builder: (context, state) {
-      // Show loading indicator for the first fetch
-      if (state is CharactersLoading && state.isFirstFetch) {
-        return const LoadingWidget(jsonPath: 'morty_wigo');
-      }
+      builder: (context, state) {
+        // Show loading indicator for the first fetch
+        if (state is CharactersLoading && state.isFirstFetch) {
+          return const LoadingWidget(jsonPath: 'morty_wigo');
+        }
 
-      // Initialize the characters list and loading flag
-      List<CharacterModel> characters = [];
-      bool isLoading = false;
+        // Initialize the characters list and loading flag
+        List<CharacterModel> characters = [];
+        bool isLoading = false;
 
-      if (state is CharactersLoading) {
-        characters = state.oldCharacters;
-        isLoading = true;
-      } else if (state is CharactersSuccess) {
-        characters = state.characters;
-      }
+        if (state is CharactersLoading) {
+          characters = state.oldCharacters;
+          isLoading = true;
+        } else if (state is CharactersSuccess) {
+          characters = state.characters;
+        } else {
+          const LoadingWidget(
+            jsonPath: 'morty_crying',
+          );
+        }
 
-      // Call the _buildCharactersList and pass characters and loading status
-      return _buildCharactersList(characters, isLoading);
-    });
+        // Call the _buildCharactersList and pass characters and loading status
+        return _buildCharactersList(characters, isLoading);
+      },
+    );
   }
 
   Widget _buildCharactersList(List<CharacterModel> characters, bool isLoading) {
@@ -101,15 +148,16 @@ class _CharactersScreenState extends State<CharactersScreen> {
           },
         ),
         // Show loading overlay when isLoading is true
-        if (isLoading)
-          Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Center(
-                child: LoadingWidget(
-                  jsonPath: 'rick_drinking',
-                  textColor: Colors.white,
+        (isLoading)
+            ? Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: LoadingWidget(
+                    jsonPath: 'rick_drinking',
+                  ),
                 ),
-              )),
+              )
+            : Container()
       ],
     );
   }

@@ -6,14 +6,17 @@ import 'package:rick_and_morty/features/characters/db/repos/character_repo.dart'
 
 part 'characters_state.dart';
 
+
+
 class CharactersCubit extends Cubit<CharactersState> {
   final CharacterRepo characterRepo;
   int currentPage = 1;
   bool isFetching = false;
+  String? currentSearchTerm;
 
   CharactersCubit(this.characterRepo) : super(CharactersInitial());
 
-  void getCharacters() async {
+  void getCharacters({String? characterName}) async {
     // Prevent multiple simultaneous requests
     if (state is CharactersLoading) return;
 
@@ -25,20 +28,21 @@ class CharactersCubit extends Cubit<CharactersState> {
       oldCharacters = currentState.characters;
     }
 
-    // Emit loading state with old characters,
-    // and isFirstFetch is true only if on the first page
+    // Emit loading state with old characters, and isFirstFetch is true only if on the first page
     emit(CharactersLoading(oldCharacters, isFirstFetch: currentPage == 1));
 
     try {
       // Fetch characters from the repository
-      final newCharacters =
-          await characterRepo.getCharacters(page: currentPage);
+      final newCharacters = await characterRepo.getCharacters(
+          page: currentPage, characterName: characterName);
 
       // Increment page number if characters were successfully loaded
       currentPage++;
 
-      // Combine old and new characters
-      final allCharacters = [...oldCharacters, ...newCharacters];
+      // Combine old and new characters if no search term, otherwise replace
+      final allCharacters = characterName == null
+          ? [...oldCharacters, ...newCharacters]
+          : newCharacters;
 
       // Emit success state with the full list of characters
       emit(CharactersSuccess(allCharacters));
@@ -46,5 +50,12 @@ class CharactersCubit extends Cubit<CharactersState> {
       // Emit failure state in case of an error
       emit(CharactersFailure("Error loading characters: ${e.toString()}"));
     }
+  }
+
+  void searchCharacters(String characterName) {
+    // Reset to the first page and clear previous search results
+    currentPage = 1;
+    currentSearchTerm = characterName;
+    getCharacters(characterName: characterName);
   }
 }
