@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_offline/flutter_offline.dart';
 import 'package:rick_and_morty/core/widgets/loading_widget.dart';
-import 'package:rick_and_morty/features/characters/cubit/characters_cubit.dart';
-import 'package:rick_and_morty/features/characters/db/models/character_model.dart';
+import 'package:rick_and_morty/cubit/characters_cubit.dart';
+import 'package:rick_and_morty/db/models/character_model.dart';
 import '../widgets/character_card.dart';
 
 class CharactersScreen extends StatefulWidget {
@@ -58,15 +59,13 @@ class _CharactersScreenState extends State<CharactersScreen> {
                 ),
                 child: TextField(
                   controller: _searchTextEditingController,
-                  onChanged: (value) {
-                    context
-                        .read<CharactersCubit>()
-                        .searchCharacters(value); // Trigger search on input
+                  onSubmitted: (value) {
+                    context.read<CharactersCubit>().searchCharacters(value);
                   },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(20, 10, 16, 12),
                     fillColor: Colors.grey.shade200,
-                    hintText: 'Search',
+                    hintText: 'Search...',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade600,
                     ),
@@ -86,12 +85,17 @@ class _CharactersScreenState extends State<CharactersScreen> {
             onPressed: () => setState(() {
               isSearchClicked = !isSearchClicked;
               if (!isSearchClicked) {
-                // _searchTextEditingController.clear();
-                context.read<CharactersCubit>().getCharacters(
-                    characterName: ''); // Load data without search term
+                _searchTextEditingController.clear();
+                // Load data without search term
+                context
+                    .read<CharactersCubit>()
+                    .getCharacters(characterName: null);
               }
             }),
-            icon: Icon(isSearchClicked ? Icons.close : Icons.search),
+            icon: Icon(
+              isSearchClicked ? Icons.close : Icons.search,
+              size: 28,
+            ),
           ),
         ],
       ),
@@ -102,27 +106,30 @@ class _CharactersScreenState extends State<CharactersScreen> {
   Widget _buildBlocBuilderCharacters() {
     return BlocBuilder<CharactersCubit, CharactersState>(
       builder: (context, state) {
-        // Show loading indicator for the first fetch
+        // Initial loading state for the first fetch
         if (state is CharactersLoading && state.isFirstFetch) {
           return const LoadingWidget(jsonPath: 'morty_wigo');
         }
 
-        // Initialize the characters list and loading flag
+        // Prepare variables to store characters list and loading state
         List<CharacterModel> characters = [];
         bool isLoading = false;
 
+        // Handling different states and assigning variables
         if (state is CharactersLoading) {
           characters = state.oldCharacters;
           isLoading = true;
         } else if (state is CharactersSuccess) {
           characters = state.characters;
-        } else {
-          const LoadingWidget(
+        } else if (state is CharactersFailure) {
+          // Display error widget when failure occurs
+          return LoadingWidget(
             jsonPath: 'morty_crying',
+            loadingStatus: state.errorMessage,
           );
         }
 
-        // Call the _buildCharactersList and pass characters and loading status
+        // Render the characters list with loading overlay if needed
         return _buildCharactersList(characters, isLoading);
       },
     );

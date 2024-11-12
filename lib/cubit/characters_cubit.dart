@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:rick_and_morty/features/characters/db/models/character_model.dart';
-import 'package:rick_and_morty/features/characters/db/repos/character_repo.dart';
+import 'package:rick_and_morty/db/models/character_model.dart';
+import 'package:rick_and_morty/db/repos/character_repo.dart';
 
 part 'characters_state.dart';
-
-
 
 class CharactersCubit extends Cubit<CharactersState> {
   final CharacterRepo characterRepo;
@@ -28,10 +26,9 @@ class CharactersCubit extends Cubit<CharactersState> {
       oldCharacters = currentState.characters;
     }
 
-    // Emit loading state with old characters, and isFirstFetch is true only if on the first page
-    emit(CharactersLoading(oldCharacters, isFirstFetch: currentPage == 1));
-
     try {
+      // Emit loading state with old characters, and isFirstFetch is true only if on the first page
+      emit(CharactersLoading(oldCharacters, isFirstFetch: currentPage == 1));
       // Fetch characters from the repository
       final newCharacters = await characterRepo.getCharacters(
           page: currentPage, characterName: characterName);

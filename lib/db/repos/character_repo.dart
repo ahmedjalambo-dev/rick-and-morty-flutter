@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import '../models/character_model.dart';
 import '../services/character_service.dart';

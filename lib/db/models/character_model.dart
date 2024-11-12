@@ -6,6 +6,7 @@ class CharacterModel {
   String gender;
   String image;
   String? firstSeenEpisode;
+  String lastKnownLocation;
 
   CharacterModel({
     required this.id,
@@ -15,6 +16,7 @@ class CharacterModel {
     required this.gender,
     required this.image,
     this.firstSeenEpisode,
+    required this.lastKnownLocation,
   });
 
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,8 @@ class CharacterModel {
       status: json['status'] ?? 'Unknown',
       species: json['species'] ?? 'Unknown',
       gender: json['gender'] ?? 'Unknown',
+      lastKnownLocation: json['origin']['name'] ?? 'Unknown',
+
       image: json['image'] ?? '',
       // The firstSeenEpisode field will be set in the repository after the additional API call
     );

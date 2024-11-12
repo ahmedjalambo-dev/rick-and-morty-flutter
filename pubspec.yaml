@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc: ^8.1.4
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dio: ^5.7.0
   flutter:
@@ -40,12 +41,6 @@ dependencies:
   meta: ^1.15.0
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
@@ -64,7 +59,7 @@ flutter:
   assets:
     - assets/images/
 
-  fonts:    
+  fonts:
     - family: LuckiestGuy
       fonts:
         - asset: assets/fonts/LuckiestGuy-Regular.ttf
@@ -97,13 +92,13 @@ flutter_native_splash:
   # of your splash screen to a solid color.  Use background_image to set the background of your
   # splash screen to a png image.  This is useful for gradients. The image will be stretch to the
   # size of the app. Only one parameter can be used, color and background_image cannot both be set.
-  color: "#0e4046"
+  color: "#141414"
   #background_image: "assets/background.png"
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
   # the leading # character.
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/images/rickandmorty_splash.png
+  image: assets/images/rickandmorty_splash1.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -119,7 +114,7 @@ flutter_native_splash:
   # parameters from above. If the image_dark parameter is specified, color_dark or
   # background_image_dark must be specified.  color_dark and background_image_dark cannot both be
   # set.
-  color_dark: "#0e4046"
+  color_dark: "#141414"
   #background_image_dark: "assets/dark-background.png"
   #image_dark: assets/splash-invert.png
   #branding_dark: assets/dart_dark.png
@@ -136,10 +131,10 @@ flutter_native_splash:
     # 768 pixels in diameter.  To fit a 1152x1152 image within a circle with a 768 diameter, simply
     # ensure that the most important design elements of your image are placed within a circular area
     # with a 768 diameter at the center of the 1152x1152 canvas.
-    image: assets/images/rickandmorty_splash_android12.png
+    image: assets/images/rickandmorty_splash1.png
 
     # Splash screen background color.
-    color: "#0e4046"
+    color: "#141414"
 
     # App icon background color.
     #icon_background_color: "#111111"
@@ -148,8 +143,8 @@ flutter_native_splash:
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
     # parameters from above.
-    image_dark: assets/images/rickandmorty_splash_android12.png
-    color_dark: "#0e4046"
+    image_dark: assets/images/rickandmorty_splash1.png
+    color_dark: "#141414"
     #icon_background_color_dark: "#eeeeee"
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.
