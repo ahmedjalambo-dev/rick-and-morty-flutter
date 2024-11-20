@@ -10,9 +10,8 @@ A Flutter application that displays characters from the Rick and Morty series. T
 
 
 ## Screenshots
-![rickandmorty_screenshots1](https://github.com/user-attachments/assets/5a34064a-ea64-4c4a-b5b5-c6ac1dca7f73)
+![rickandmorty_poster](https://github.com/user-attachments/assets/a380eb6d-849b-464b-ba96-3716593c7d65)
 
-![rickandmorty_screenshots2](https://github.com/user-attachments/assets/ff9a7946-08d6-4f50-95b9-287abe1d166d)
 
 
 
