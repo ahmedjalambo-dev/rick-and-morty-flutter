@@ -1,16 +1,51 @@
-# rick_and_morty
+# Rick and Morty Character App - Flutter
 
-A new Flutter project.
+A Flutter application that displays characters from the Rick and Morty series. The app lists all characters and includes a search feature to find specific characters by name. Each character has a detailed profile with additional information.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Character Listing**: View a complete list of characters from the Rick and Morty series.
+- **Search Functionality**: Quickly search for a character by name.
+- **Character Details**: Tap on a character to view detailed information, including species, status, gender, origin, and episodes.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
+![rickandmorty_poster](https://github.com/user-attachments/assets/a380eb6d-849b-464b-ba96-3716593c7d65)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+
+
+
+
+## Installation
+
+To run this project locally, follow these steps:
+
+### Prerequisites
+
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- Dart
+- An IDE such as [VS Code](https://code.visualstudio.com/) or [Android Studio](https://developer.android.com/studio)
+
+### Steps
+
+1. **Clone the repository**:
+   ```bash
+    git clone https://github.com/Jalambo-Dev/rick_and_morty.git
+   ```
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd rick_and_morty
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+
+4. **Run the app**:
+   ```bash
+   flutter run
+   ```
