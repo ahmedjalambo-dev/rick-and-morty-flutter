@@ -92,8 +92,8 @@ class DetailsScreen extends StatelessWidget {
         title: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xff272b33).withOpacity(0.6),
+          decoration: const BoxDecoration(
+            color: Color(0xff272b33),
           ),
           child: Text(
             selectedCharacter.name,

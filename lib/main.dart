@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rick_and_morty/config/routes/route_generator.dart';
 
 void main() {

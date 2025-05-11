@@ -157,7 +157,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
         // Show loading overlay when isLoading is true
         (isLoading)
             ? Container(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black45,
                 child: const Center(
                   child: LoadingWidget(
                     jsonPath: 'rick_drinking',
