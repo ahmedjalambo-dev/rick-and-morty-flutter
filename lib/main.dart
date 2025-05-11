@@ -4,13 +4,6 @@ import 'package:rick_and_morty/config/routes/route_generator.dart';
 
 void main() {
   runApp(const MyApp());
-
-  // Set the system UI mode to edge-to-edge,
-  // making the navigation bar and status bar transparent
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent),
-  );
 }
 
 class MyApp extends StatelessWidget {
